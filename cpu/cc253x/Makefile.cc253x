@@ -1,13 +1,13 @@
 ### Compiler definitions
-CC       = sdcc
-LD       = sdcc
-AS       = sdcc
-AR       = sdar
-OBJCOPY  = objcopy
+CC       = sdcc-sdcc
+LD       = sdcc-sdcc
+AS       = sdcc-sdcc
+AR       = sdcc-sdar
+OBJCOPY  = sdcc-sdobjcopy
 STRIP    = strip
 
 ### Hex file conversions
-PACKIHX    = packihx
+PACKIHX    = sdcc-packihx
 SREC_CAT   = srec_cat
 SREC_FLAGS = -disable_sequence_warnings
 
@@ -24,6 +24,7 @@ CFLAGS += --disable-warning 110 --disable-warning 126
 LDFLAGS += --model-$(MEMORY_MODEL) --stack-auto --out-fmt-ihx
 LDFLAGS += --xram-loc 0x0000 --xram-size 0x1F00
 LDFLAGS += --code-loc $(START_ADDR) --code-size $(CODE_SIZE)
+LDFLAGS += -L /usr/share/sdcc/lib/large
 
 ASFLAGS += -plosgff
 
@@ -93,7 +94,7 @@ else
   ## No banking
   MEMORY_MODEL=large
   c_seg =
-endif 
+endif
 
 ### CPU-dependent cleanup files
 CLEAN += *.lnk *.lk *.sym *.lib *.ihx *.rel *.mem *.rst *.asm *.hex
